@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About · Manuel Serrato Real Estate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --sand: #e8dcc8; --sand-light: #f5f0e8;
+      --ocean: #1a3a4a; --ocean-mid: #2c5f74;
+      --gold: #c9a84c; --gold-light: #e2c97e;
+      --white: #fdfbf7; --text-dark: #1a1a1a; --text-mid: #4a4a4a;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--white); color: var(--text-dark); overflow-x: hidden; cursor: none; }
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid var(--gold); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: width .3s, height .3s, opacity .3s; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 28px 56px; transition: background .4s, padding .4s; }
+    nav.scrolled { background: rgba(26,58,74,.95); backdrop-filter: blur(12px); padding: 18px 56px; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--white); letter-spacing: .12em; text-decoration: none; }
+    .nav-logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: .7rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.8); text-decoration: none; transition: color .3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+    /* HERO */
+    .about-hero {
+      height: 100vh; min-height: 640px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .hero-visual {
+      position: relative; overflow: hidden;
+    }
+    .hero-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transform: scale(1.04); animation: zoomOut 12s ease forwards; }
+    @keyframes zoomOut { from { transform: scale(1.04); } to { transform: scale(1); } }
+    .hero-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 70%, var(--ocean) 100%); }
+    .hero-text {
+      background: var(--ocean);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 100px 80px 80px 64px;
+      position: relative;
+    }
+    .hero-text::before {
+      content: 'M';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28rem; font-weight: 300; font-style: italic;
+      color: rgba(201,168,76,.05);
+      position: absolute; right: -40px; top: 50%; transform: translateY(-50%);
+      line-height: 1; pointer-events: none;
+    }
+    .hero-eyebrow { font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 14px; margin-bottom: 24px; opacity: 0; animation: fadeUp .9s .3s forwards; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+    .hero-text h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem,5vw,4.5rem); font-weight: 300; color: var(--white); line-height: 1.05; margin-bottom: 8px; opacity: 0; animation: fadeUp .9s .5s forwards; }
+    .hero-text h1 em { font-style: italic; color: var(--gold-light); display: block; }
+    .hero-subtitle { font-size: .75rem; color: rgba(255,255,255,.5); letter-spacing: .12em; margin-bottom: 48px; opacity: 0; animation: fadeUp .9s .65s forwards; }
+    .hero-bio { font-size: .8rem; font-weight: 300; line-height: 2.1; color: rgba(255,255,255,.65); max-width: 440px; opacity: 0; animation: fadeUp .9s .8s forwards; }
+    .hero-signature { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-style: italic; color: var(--gold); margin-top: 40px; opacity: 0; animation: fadeUp .9s 1s forwards; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+
+    /* NUMBERS */
+    .numbers { background: var(--sand); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .num-item { padding: 64px 40px; text-align: center; border-right: 1px solid rgba(26,58,74,.1); }
+    .num-item:last-child { border-right: none; }
+    .num-val { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--ocean); display: block; }
+    .num-label { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--text-mid); margin-top: 8px; display: block; }
+
+    /* STORY */
+    .story { padding: 120px 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: center; }
+    .story-tag { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .story-tag::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .story h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,3.5vw,3rem); font-weight: 300; color: var(--ocean); line-height: 1.15; margin-bottom: 32px; }
+    .story h2 em { font-style: italic; color: var(--ocean-mid); }
+    .story p { font-size: .8rem; font-weight: 300; line-height: 2.1; color: var(--text-mid); margin-bottom: 20px; }
+    .story-visual { position: relative; }
+    .story-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+    .story-badge {
+      position: absolute; bottom: -24px; left: -24px;
+      background: var(--gold); padding: 28px 32px;
+      text-align: center;
+    }
+    .story-badge-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--ocean); display: block; line-height: 1; }
+    .story-badge-text { font-size: .55rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ocean); display: block; margin-top: 4px; }
+
+    /* EXPERTISE */
+    .expertise { background: var(--ocean); padding: 120px 56px; }
+    .expertise-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 72px; }
+    .expertise-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,4vw,3.5rem); font-weight: 300; color: var(--white); line-height: 1.1; }
+    .expertise-header h2 em { font-style: italic; color: var(--gold); }
+    .expertise-header p { font-size: .8rem; font-weight: 300; line-height: 2; color: rgba(255,255,255,.5); }
+
+    .expertise-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+    .expertise-item { border: 1px solid rgba(255,255,255,.06); padding: 48px; position: relative; overflow: hidden; transition: background .4s; }
+    .expertise-item:hover { background: rgba(201,168,76,.06); }
+    .exp-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: rgba(201,168,76,.12); position: absolute; top: 28px; right: 36px; line-height: 1; }
+    .exp-icon { font-size: 1.5rem; margin-bottom: 20px; }
+    .expertise-item h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--white); margin-bottom: 14px; }
+    .expertise-item p { font-size: .74rem; font-weight: 300; line-height: 2; color: rgba(255,255,255,.45); }
+
+    /* AREAS */
+    .areas { padding: 120px 56px; background: var(--sand-light); }
+    .areas-header { text-align: center; margin-bottom: 64px; }
+    .areas-header h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,4vw,3.5rem); font-weight: 300; color: var(--ocean); }
+    .areas-header h2 em { font-style: italic; color: var(--gold); }
+    .areas-header p { font-size: .78rem; color: var(--text-mid); font-weight: 300; margin-top: 16px; }
+    .areas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .area-card { position: relative; overflow: hidden; min-height: 320px; }
+    .area-card img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s; }
+    .area-card:hover img { transform: scale(1.06); }
+    .area-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,58,74,.88) 0%, transparent 50%); display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; }
+    .area-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--white); }
+    .area-desc { font-size: .65rem; color: rgba(255,255,255,.55); font-weight: 300; margin-top: 6px; }
+
+    /* TESTIMONIALS */
+    .testimonials { padding: 120px 56px; }
+    .testimonials h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,3.5vw,3rem); font-weight: 300; color: var(--ocean); margin-bottom: 64px; text-align: center; }
+    .testimonials h2 em { font-style: italic; color: var(--gold); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .testi-card { background: var(--sand-light); padding: 48px 40px; position: relative; }
+    .testi-quote { font-size: 3rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; line-height: .8; margin-bottom: 20px; }
+    .testi-text { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; font-weight: 300; color: var(--ocean); line-height: 1.7; margin-bottom: 28px; }
+    .testi-author { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-mid); }
+    .testi-property { font-size: .58rem; color: var(--gold); letter-spacing: .12em; margin-top: 4px; }
+
+    /* CTA */
+    .about-cta { background: var(--ocean); padding: 120px 56px; text-align: center; position: relative; overflow: hidden; }
+    .about-cta::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border: 1px solid rgba(201,168,76,.08); border-radius: 50%; }
+    .about-cta::after { content: ''; position: absolute; top: -160px; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; border: 1px solid rgba(201,168,76,.04); border-radius: 50%; }
+    .about-cta h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,4vw,3.8rem); font-weight: 300; color: var(--white); margin-bottom: 24px; position: relative; }
+    .about-cta h2 em { font-style: italic; color: var(--gold); }
+    .about-cta p { font-size: .8rem; font-weight: 300; color: rgba(255,255,255,.55); max-width: 480px; margin: 0 auto 48px; line-height: 2; position: relative; }
+    .btn-primary { display: inline-block; padding: 18px 56px; background: var(--gold); color: var(--ocean); font-family: 'Montserrat', sans-serif; font-size: .65rem; font-weight: 600; letter-spacing: .25em; text-transform: uppercase; text-decoration: none; cursor: none; position: relative; transition: background .3s; }
+    .btn-primary:hover { background: var(--gold-light); }
+
+    footer { background: var(--text-dark); padding: 56px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--white); }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+    .footer-copy { font-size: .65rem; color: rgba(255,255,255,.3); }
+    .footer-social { display: flex; gap: 20px; }
+    .footer-social a { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.4); text-decoration: none; transition: color .3s; }
+    .footer-social a:hover { color: var(--gold); }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s, transform .8s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; } nav.scrolled { padding: 16px 24px; } .nav-links { display: none; }
+      .about-hero { grid-template-columns: 1fr; height: auto; }
+      .hero-visual { height: 50vh; }
+      .hero-text { padding: 60px 28px; }
+      .numbers { grid-template-columns: repeat(2,1fr); }
+      .story { grid-template-columns: 1fr; padding: 64px 24px; gap: 48px; }
+      .story-badge { left: 0; }
+      .expertise { padding: 64px 24px; }
+      .expertise-header { grid-template-columns: 1fr; gap: 24px; }
+      .expertise-list { grid-template-columns: 1fr; }
+      .areas { padding: 64px 24px; }
+      .areas-grid { grid-template-columns: 1fr; }
+      .testimonials { padding: 64px 24px; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .about-cta { padding: 80px 24px; }
+      footer { flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Manuel <span>Serrato</span></a>
+    <ul class="nav-links">
+      <li><a href="properties.html">Properties</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="about-hero">
+    <div class="hero-visual">
+      <img src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=900&q=85" alt="Los Cabos"/>
+    </div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">Luxury Real Estate · Los Cabos</div>
+      <h1>Manuel<em>Serrato</em></h1>
+      <div class="hero-subtitle">Luxury Real Estate Specialist · 15 Years Experience</div>
+      <p class="hero-bio">
+        Born and raised in Baja California Sur, I've spent my entire career immersed in the land, culture, and real estate market of Los Cabos. My roots here give me an edge no outsider can replicate — a deep, personal understanding of every neighborhood, community, and coastal corridor.
+      </p>
+      <div class="hero-signature">Manuel</div>
+    </div>
+  </section>
+
+  <section class="numbers">
+    <div class="num-item reveal"><span class="num-val">180+</span><span class="num-label">Properties Sold</span></div>
+    <div class="num-item reveal"><span class="num-val">$2.4B</span><span class="num-label">Total Volume</span></div>
+    <div class="num-item reveal"><span class="num-val">15</span><span class="num-label">Years in Los Cabos</span></div>
+    <div class="num-item reveal"><span class="num-val">98%</span><span class="num-label">Client Satisfaction</span></div>
+  </section>
+
+  <section class="story">
+    <div class="story-visual reveal">
+      <img class="story-img" src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=700&q=80" alt="Los Cabos coast"/>
+      <div class="story-badge">
+        <span class="story-badge-num">15</span>
+        <span class="story-badge-text">Years of<br>Excellence</span>
+      </div>
+    </div>
+    <div>
+      <div class="story-tag reveal">My Story</div>
+      <h2 class="reveal">A Lifetime <em>Rooted</em> in Los Cabos</h2>
+      <p class="reveal">
+        I began my career in real estate in 2009, at a time when Los Cabos was still discovering its potential as a world-class destination. What started as a passion for helping families find homes became something far greater — a mission to connect people from around the world with the most breathtaking properties on the Baja peninsula.
+      </p>
+      <p class="reveal">
+        Over 15 years, I've built a reputation for honesty, patience, and an obsessive attention to detail. I don't just show properties — I listen to your lifestyle, your goals, and your vision, and then I find the property that fits it perfectly.
+      </p>
+      <p class="reveal">
+        Whether it's an oceanfront villa in Palmilla, a marina penthouse in Cabo San Lucas, or a private retreat in the East Cape, I have the network and the knowledge to make it happen.
+      </p>
+    </div>
+  </section>
+
+  <section class="expertise">
+    <div class="expertise-header reveal">
+      <h2>Areas of <em>Expertise</em></h2>
+      <p>My services go beyond finding a property. I'm a full-cycle advisor, from market analysis to closing, ensuring your investment is protected at every step.</p>
+    </div>
+    <div class="expertise-list">
+      <div class="expertise-item reveal">
+        <div class="exp-num">01</div>
+        <div class="exp-icon">🏡</div>
+        <h3>Buyer Representation</h3>
+        <p>Exclusive access to on-market and off-market opportunities. I negotiate on your behalf and guide you through every legal and logistical step of purchasing property in Mexico.</p>
+      </div>
+      <div class="expertise-item reveal">
+        <div class="exp-num">02</div>
+        <div class="exp-icon">📈</div>
+        <h3>Luxury Sales</h3>
+        <p>Premium marketing, professional photography, drone cinematics, and international reach through a curated network of high-net-worth buyers across the US, Canada, and Europe.</p>
+      </div>
+      <div class="expertise-item reveal">
+        <div class="exp-num">03</div>
+        <div class="exp-icon">🌊</div>
+        <h3>Investment Advisory</h3>
+        <p>Deep market data and 15 years of firsthand experience help identify high-yield vacation rental opportunities and long-term appreciation plays unique to the Los Cabos corridor.</p>
+      </div>
+      <div class="expertise-item reveal">
+        <div class="exp-num">04</div>
+        <div class="exp-icon">⚖️</div>
+        <h3>Legal & Fideicomiso Guidance</h3>
+        <p>Navigating Mexican property law for foreign buyers requires a specialist. I work alongside trusted notarios and attorneys to ensure a seamless, secure transaction every time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="areas">
+    <div class="areas-header reveal">
+      <h2>The Areas I <em>Know Best</em></h2>
+      <p>From the calm waters of the Sea of Cortez to the wild Pacific coast, I cover every corner of Los Cabos.</p>
+    </div>
+    <div class="areas-grid">
+      <div class="area-card reveal">
+        <img src="https://images.unsplash.com/photo-1568041487520-2b1a985a4cdb?w=700&q=80" alt="San José del Cabo"/>
+        <div class="area-overlay">
+          <div class="area-name">San José del Cabo</div>
+          <div class="area-desc">Art district · Palmilla · Corridor</div>
+        </div>
+      </div>
+      <div class="area-card reveal">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80" alt="Cabo San Lucas"/>
+        <div class="area-overlay">
+          <div class="area-name">Cabo San Lucas</div>
+          <div class="area-desc">Marina · Pedregal · Quivira</div>
+        </div>
+      </div>
+      <div class="area-card reveal">
+        <img src="https://images.unsplash.com/photo-1505873242700-f289a29e1724?w=700&q=80" alt="East Cape"/>
+        <div class="area-overlay">
+          <div class="area-name">East Cape</div>
+          <div class="area-desc">Los Barriles · Buena Vista · La Ribera</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h2>What <em>Clients Say</em></h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-text">Manuel found us a property we didn't even know existed. His knowledge of Los Cabos is unmatched — we felt guided, not sold to.</div>
+        <div class="testi-author">James & Laura Whitfield</div>
+        <div class="testi-property">Palm Beach · Villa Horizonte, Palmilla</div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-text">We had worked with three other agents before Manuel. The difference was night and day. He actually listened and delivered exactly what we envisioned.</div>
+        <div class="testi-author">Ricardo & Sofía Mendoza</div>
+        <div class="testi-property">Guadalajara · Casa del Mar, Corridor</div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+        <div class="testi-text">As a foreign buyer, I was nervous about the process. Manuel made it feel completely safe and transparent from day one. I couldn't be happier.</div>
+        <div class="testi-author">David Chen</div>
+        <div class="testi-property">Vancouver · Brisa del Pacífico, Pedregal</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-cta">
+    <h2 class="reveal">Ready to find your <em>dream property?</em></h2>
+    <p class="reveal">Let's talk about what you're looking for. No pressure, no rush — just an honest conversation about your vision for life in Los Cabos.</p>
+    <a href="contact.html" class="btn-primary reveal">Start the Conversation</a>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Manuel <span>Serrato</span></div>
+    <div class="footer-copy">© 2026 Manuel Serrato Real Estate · Los Cabos, BCS, México</div>
+    <div class="footer-social"><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">WhatsApp</a></div>
+  </footer>
+
+  <script>
+    const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function loop(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';ring.style.opacity='.5';});el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.opacity='1';});});
+    window.addEventListener('scroll',()=>{ document.getElementById('nav').classList.toggle('scrolled',scrollY>60); });
+    const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}});},{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>
