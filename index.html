@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manuel · Luxury Real Estate Los Cabos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --sand: #e8dcc8;
+      --sand-light: #f5f0e8;
+      --ocean: #1a3a4a;
+      --ocean-mid: #2c5f74;
+      --gold: #c9a84c;
+      --gold-light: #e2c97e;
+      --white: #fdfbf7;
+      --text-dark: #1a1a1a;
+      --text-mid: #4a4a4a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 56px;
+      mix-blend-mode: normal;
+      transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(26, 58, 74, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 18px 56px;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.12em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 700px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 56px 80px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(160deg, rgba(26,58,74,0.75) 0%, rgba(0,0,0,0.3) 60%, rgba(201,168,76,0.15) 100%),
+        url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1800&q=85') center/cover no-repeat;
+      transform: scale(1.05);
+      animation: zoomOut 12s ease forwards;
+    }
+    @keyframes zoomOut {
+      from { transform: scale(1.05); }
+      to   { transform: scale(1.0); }
+    }
+
+    /* Grain overlay */
+    .hero-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    .hero-eyebrow {
+      position: relative;
+      display: flex; align-items: center; gap: 16px;
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 1s 0.3s ease forwards;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      position: relative;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--white);
+      max-width: 800px;
+      opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .hero-sub {
+      position: relative;
+      font-size: 0.8rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.7);
+      margin-top: 24px; max-width: 480px;
+      line-height: 1.9;
+      opacity: 0; animation: fadeUp 1s 0.7s ease forwards;
+    }
+
+    .hero-actions {
+      position: relative;
+      display: flex; gap: 20px; margin-top: 44px;
+      opacity: 0; animation: fadeUp 1s 0.9s ease forwards;
+    }
+    .btn-primary {
+      padding: 16px 44px;
+      background: var(--gold);
+      color: var(--ocean);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none; cursor: none;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-ghost {
+      padding: 16px 44px;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 32px; right: 56px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeIn 1s 1.4s ease forwards;
+    }
+    .scroll-hint span {
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.4; transform: scaleY(0.6); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* ── STATS BAND ── */
+    .stats {
+      background: var(--ocean);
+      display: grid; grid-template-columns: repeat(4, 1fr);
+    }
+    .stat {
+      padding: 48px 40px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 8px; display: block;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+    .about-img {
+      position: relative; overflow: hidden;
+      background: url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=900&q=80') center/cover no-repeat;
+    }
+    .about-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, transparent 60%);
+    }
+    .about-content {
+      background: var(--sand-light);
+      padding: 96px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .section-tag {
+      font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 28px;
+    }
+    .section-tag::before {
+      content: ''; display: block;
+      width: 30px; height: 1px; background: var(--gold);
+    }
+    .about-content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3rem);
+      font-weight: 300; line-height: 1.2;
+      color: var(--ocean);
+      margin-bottom: 28px;
+    }
+    .about-content h2 em { font-style: italic; color: var(--ocean-mid); }
+    .about-content p {
+      font-size: 0.82rem; font-weight: 300;
+      line-height: 2; color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .signature {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-style: italic;
+      color: var(--ocean);
+      margin-top: 36px;
+    }
+
+    /* ── LISTINGS ── */
+    .listings { padding: 120px 56px; background: var(--white); }
+    .listings-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 64px;
+    }
+    .listings-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 300; color: var(--ocean);
+      line-height: 1.1;
+    }
+    .listings-header h2 em { font-style: italic; color: var(--gold); }
+    .listings-header a {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ocean-mid); text-decoration: none; font-weight: 500;
+      border-bottom: 1px solid var(--gold); padding-bottom: 3px;
+      transition: color 0.3s;
+    }
+    .listings-header a:hover { color: var(--gold); }
+
+    .listings-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 2px;
+    }
+    .listing-card {
+      position: relative; overflow: hidden;
+      background: #ddd;
+    }
+    .listing-card:first-child {
+      grid-row: 1 / 3;
+    }
+    .listing-card img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.7s ease;
+    }
+    .listing-card:hover img { transform: scale(1.06); }
+    .listing-card:first-child { min-height: 640px; }
+    .listing-card:not(:first-child) { min-height: 316px; }
+
+    .listing-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(26,58,74,0.88) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 32px;
+      transition: background 0.4s;
+    }
+    .listing-card:hover .listing-overlay {
+      background: linear-gradient(to top, rgba(26,58,74,0.95) 0%, rgba(26,58,74,0.2) 60%);
+    }
+    .listing-type {
+      font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .listing-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 300; color: var(--white);
+      line-height: 1.1; margin-bottom: 6px;
+    }
+    .listing-card:first-child .listing-name { font-size: 2.4rem; }
+    .listing-loc {
+      font-size: 0.65rem; color: rgba(255,255,255,0.55); font-weight: 300;
+      letter-spacing: 0.08em; margin-bottom: 16px;
+    }
+    .listing-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; color: var(--gold-light);
+    }
+    .listing-card:first-child .listing-price { font-size: 2rem; }
+
+    /* ── SERVICES ── */
+    .services {
+      background: var(--ocean);
+      padding: 120px 56px;
+    }
+    .services-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 80px;
+    }
+    .services-top h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 300; color: var(--white);
+      max-width: 380px; line-height: 1.1;
+    }
+    .services-top h2 em { font-style: italic; color: var(--gold); }
+    .services-top p {
+      font-size: 0.8rem; font-weight: 300; line-height: 2;
+      color: rgba(255,255,255,0.55);
+      max-width: 400px;
+    }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .service-item {
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 56px 48px;
+      position: relative; overflow: hidden;
+      transition: background 0.4s;
+    }
+    .service-item:hover { background: rgba(201,168,76,0.06); }
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem; font-weight: 300;
+      color: rgba(201,168,76,0.15);
+      position: absolute; top: 32px; right: 40px;
+      line-height: 1;
+    }
+    .service-icon {
+      font-size: 1.6rem; margin-bottom: 24px;
+    }
+    .service-item h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 400;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .service-item p {
+      font-size: 0.75rem; font-weight: 300; line-height: 2;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial {
+      background: var(--sand);
+      padding: 120px 56px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .testimonial::before {
+      content: '\201C';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20rem; font-weight: 300;
+      color: rgba(201,168,76,0.12);
+      position: absolute; top: -60px; left: 50%;
+      transform: translateX(-50%);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .testimonial blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 300; font-style: italic;
+      color: var(--ocean);
+      max-width: 780px; margin: 0 auto;
+      line-height: 1.6; position: relative;
+    }
+    .testimonial cite {
+      display: block; margin-top: 40px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+    }
+    .contact-info {
+      background: var(--ocean);
+      padding: 96px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contact-info h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 300; color: var(--white);
+      margin-bottom: 36px; line-height: 1.1;
+    }
+    .contact-info h2 em { font-style: italic; color: var(--gold); }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 20px;
+      margin-bottom: 28px;
+    }
+    .contact-detail-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+    .contact-detail-text span {
+      display: block; font-size: 0.58rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 4px;
+    }
+    .contact-detail-text p {
+      font-size: 0.8rem; font-weight: 300;
+      color: rgba(255,255,255,0.7); line-height: 1.7;
+    }
+
+    .contact-form {
+      background: var(--sand-light);
+      padding: 96px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .contact-form h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300;
+      color: var(--ocean); margin-bottom: 40px;
+    }
+    .form-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label {
+      font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--ocean-mid);
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      border: none; border-bottom: 1px solid rgba(26,58,74,0.2);
+      background: transparent;
+      padding: 12px 0; font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem; font-weight: 300; color: var(--text-dark);
+      outline: none; transition: border-color 0.3s;
+      cursor: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-group textarea { resize: none; height: 80px; }
+    .form-full { grid-column: 1 / -1; }
+    .form-submit {
+      margin-top: 32px; align-self: flex-start;
+    }
+    .btn-submit {
+      padding: 16px 52px;
+      background: var(--ocean); color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      border: none; cursor: none;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .btn-submit::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold); transform: translateX(-101%);
+      transition: transform 0.4s ease;
+    }
+    .btn-submit:hover { background: var(--ocean); }
+    .btn-submit:hover::after { transform: translateX(0); }
+    .btn-submit span { position: relative; z-index: 1; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text-dark);
+      padding: 56px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300;
+      color: var(--white); letter-spacing: 0.1em;
+    }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+    .footer-copy {
+      font-size: 0.65rem; color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+    .footer-social { display: flex; gap: 20px; }
+    .footer-social a {
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4); text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-social a:hover { color: var(--gold); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 24px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 0 24px 60px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .about { grid-template-columns: 1fr; }
+      .about-img { min-height: 300px; }
+      .about-content { padding: 60px 32px; }
+      .listings { padding: 80px 24px; }
+      .listings-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .listing-card:first-child { grid-row: auto; }
+      .services { padding: 80px 24px; }
+      .services-top { flex-direction: column; gap: 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .contact { grid-template-columns: 1fr; }
+      .contact-info, .contact-form { padding: 60px 32px; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 24px; text-align: center; }
+      .scroll-hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">Manuel <span>García</span></a>
+    <ul class="nav-links">
+      <li><a href="#properties">Properties</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-eyebrow">Luxury Real Estate · Los Cabos, Baja California Sur</div>
+    <h1>
+      Where the <em>Desert Meets the Sea</em>
+    </h1>
+    <p class="hero-sub">
+      Exceptional properties in one of the world's most coveted destinations. From oceanfront villas to desert estates — curated for those who seek the extraordinary.
+    </p>
+    <div class="hero-actions">
+      <a href="#properties" class="btn-primary">View Properties</a>
+      <a href="#contact" class="btn-ghost">Schedule a Visit</a>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat reveal">
+      <span class="stat-number">180+</span>
+      <span class="stat-label">Properties Sold</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-number">$2.4B</span>
+      <span class="stat-label">Total Volume</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-number">15</span>
+      <span class="stat-label">Years Experience</span>
+    </div>
+    <div class="stat reveal">
+      <span class="stat-number">98%</span>
+      <span class="stat-label">Client Satisfaction</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-img"></div>
+    <div class="about-content">
+      <div class="section-tag reveal">About Manuel</div>
+      <h2 class="reveal">Your <em>Trusted Guide</em> to Cabo Real Estate</h2>
+      <p class="reveal">
+        With over 15 years navigating the Los Cabos luxury market, I bring an intimate knowledge of every neighborhood, from the serene shores of Palmilla to the vibrant marina of Cabo San Lucas.
+      </p>
+      <p class="reveal">
+        My approach is simple: understand your vision, then surpass it. Every client receives personalized attention, transparent guidance, and access to an exclusive portfolio of on-market and off-market opportunities.
+      </p>
+      <div class="signature reveal">Manuel</div>
+    </div>
+  </section>
+
+  <!-- LISTINGS -->
+  <section class="listings" id="properties">
+    <div class="listings-header reveal">
+      <h2>Featured<br><em>Properties</em></h2>
+      <a href="#">View All Listings →</a>
+    </div>
+    <div class="listings-grid">
+      <div class="listing-card reveal">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=80" alt="Villa Horizonte"/>
+        <div class="listing-overlay">
+          <div class="listing-type">Oceanfront Villa · For Sale</div>
+          <div class="listing-name">Villa Horizonte</div>
+          <div class="listing-loc">📍 Palmilla, San José del Cabo</div>
+          <div class="listing-price">$4,850,000 USD</div>
+        </div>
+      </div>
+      <div class="listing-card reveal">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" alt="Casa del Mar"/>
+        <div class="listing-overlay">
+          <div class="listing-type">Beach Estate · For Sale</div>
+          <div class="listing-name">Casa del Mar</div>
+          <div class="listing-loc">📍 Corridor, Los Cabos</div>
+          <div class="listing-price">$2,200,000 USD</div>
+        </div>
+      </div>
+      <div class="listing-card reveal">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Cielo Alto"/>
+        <div class="listing-overlay">
+          <div class="listing-type">Modern Villa · For Sale</div>
+          <div class="listing-name">Cielo Alto</div>
+          <div class="listing-loc">📍 Cabo San Lucas</div>
+          <div class="listing-price">$1,750,000 USD</div>
+        </div>
+      </div>
+      <div class="listing-card reveal">
+        <img src="https://images.unsplash.com/photo-1505873242700-f289a29e1724?w=600&q=80" alt="Punta Arena"/>
+        <div class="listing-overlay">
+          <div class="listing-type">Desert Retreat · For Sale</div>
+          <div class="listing-name">Punta Arena</div>
+          <div class="listing-loc">📍 East Cape, Baja Sur</div>
+          <div class="listing-price">$980,000 USD</div>
+        </div>
+      </div>
+      <div class="listing-card reveal">
+        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="Mar de Cortez"/>
+        <div class="listing-overlay">
+          <div class="listing-type">Penthouse · For Rent</div>
+          <div class="listing-name">Mar de Cortez</div>
+          <div class="listing-loc">📍 Marina, Cabo San Lucas</div>
+          <div class="listing-price">$18,500 / month</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-top reveal">
+      <h2>How I Can <em>Help You</em></h2>
+      <p>Whether you're buying your first Cabo home, investing in vacation rentals, or selling a luxury estate, I offer end-to-end guidance at every stage of the journey.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-item reveal">
+        <div class="service-num">01</div>
+        <div class="service-icon">🏡</div>
+        <h3>Buyer Representation</h3>
+        <p>Exclusive access to on-market and off-market properties. Full negotiation support, due diligence, and closing coordination — so you can focus on the excitement.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">02</div>
+        <div class="service-icon">📈</div>
+        <h3>Seller Services</h3>
+        <p>Premium marketing strategy, professional photography, and an international buyer network that ensures your property reaches the right audience at the right price.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">03</div>
+        <div class="service-icon">🌊</div>
+        <h3>Investment Advisory</h3>
+        <p>Identify high-yield vacation rental opportunities and long-term appreciation plays in the Los Cabos market, backed by 15 years of local market data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <section class="testimonial">
+    <blockquote class="reveal">
+      "Manuel found us a property we didn't even know existed. His knowledge of Los Cabos is unmatched — we felt guided, not sold to. We couldn't imagine working with anyone else."
+      <cite>— James & Laura Whitfield, Palm Beach · Purchased Villa Horizonte</cite>
+    </blockquote>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-info">
+      <div class="section-tag reveal" style="color: var(--gold);">Get in Touch</div>
+      <h2 class="reveal">Let's Find Your <em>Perfect Property</em></h2>
+      <div class="contact-detail reveal">
+        <div class="contact-detail-icon">📍</div>
+        <div class="contact-detail-text">
+          <span>Location</span>
+          <p>San José del Cabo,<br>Baja California Sur, México</p>
+        </div>
+      </div>
+      <div class="contact-detail reveal">
+        <div class="contact-detail-icon">📞</div>
+        <div class="contact-detail-text">
+          <span>Phone</span>
+          <p>+52 (624) 000-0000</p>
+        </div>
+      </div>
+      <div class="contact-detail reveal">
+        <div class="contact-detail-icon">✉️</div>
+        <div class="contact-detail-text">
+          <span>Email</span>
+          <p>manuel@loscabosrealty.com</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <h3 class="reveal">Send a Message</h3>
+      <div class="form-row">
+        <div class="form-group reveal">
+          <label>First Name</label>
+          <input type="text" placeholder="John"/>
+        </div>
+        <div class="form-group reveal">
+          <label>Last Name</label>
+          <input type="text" placeholder="Doe"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group reveal">
+          <label>Email</label>
+          <input type="email" placeholder="john@example.com"/>
+        </div>
+        <div class="form-group reveal">
+          <label>Phone</label>
+          <input type="tel" placeholder="+1 (000) 000-0000"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group form-full reveal">
+          <label>I'm interested in</label>
+          <select>
+            <option>Buying a Property</option>
+            <option>Selling a Property</option>
+            <option>Investment Advice</option>
+            <option>Rental Opportunities</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group form-full reveal">
+          <label>Message</label>
+          <textarea placeholder="Tell me about your ideal property..."></textarea>
+        </div>
+      </div>
+      <div class="form-submit reveal">
+        <button class="btn-submit"><span>Send Message</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Manuel <span>García</span></div>
+    <div class="footer-copy">© 2026 Manuel García Real Estate · Los Cabos, BCS, México</div>
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function animateCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    })();
+    document.querySelectorAll('a, button, input, select, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.opacity = '0.5'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '1'; });
+    });
+
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
